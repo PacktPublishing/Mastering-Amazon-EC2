@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Example template to illustrate syntax and structure.'
+
+Metadata:
+  Instances: 
+    Description: "Information about the instances"
+
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    Description: Enter the instance type for the EC2 instance.
+
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: !Ref InstanceTypeParameter
+      ImageId: ami-0abcdef1234567890 # REPLACE THIS WITH VALID AMI ID
+
+Outputs:
+  InstanceAccess:
+    Description: "The IP address of the newly created EC2 instance"
+    Value: !GetAtt EC2Instance.PublicIp

@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A simple AWS CloudFormation template to deploy a web server.
+Resources:
+  WebServer:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0abcdef1234567890 # REPLACE THIS WITH VALID AMI ID
+      InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: WebServerSecurityGroup
+      KeyName: my-aws-key-pair
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP access via port 80
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0

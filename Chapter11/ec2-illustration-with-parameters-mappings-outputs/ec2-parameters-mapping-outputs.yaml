@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A simple EC2 instance with dynamic inputs.
+
+Parameters:
+  InstanceTypeParameter:
+    Description: Enter the instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - m3.medium
+      - m3.large
+
+Mappings:
+  RegionMap:
+    # Update the AMI IDs below with valid AMIs for your desired AWS region.
+    us-east-1:
+      AMI: ami-0abcdef1234567890 # REPLACE THIS WITH VALID AMI ID FOR us-east-1
+    eu-west-1:
+      AMI: ami-0fghijklmn1234567 # REPLACE THIS WITH VALID AMI ID FOR eu-west-1
+    # Add additional regions and AMIs as necessary:
+    # region-name:
+    #   AMI: ami-youramiidhere # REPLACE THIS WITH VALID AMI ID FOR region-name
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceTypeParameter
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMI]
+      …
+Outputs:
+  InstanceID:
+    Description: The Instance ID of the EC2 instance
+    Value: !Ref MyEC2Instance
+  InstanceDNSName:
+    Description: The public DNS name of the EC2 instance
+    Value: !GetAtt MyEC2Instance.PublicDnsName
